@@ -9,7 +9,7 @@ public class PlayerController : BaseController
     Define.Direction dir = Define.Direction.Right;
     Define.Direction lookdir = Define.Direction.Right;
     [SerializeField]
-    Vector3 Movedir = new Vector3();
+    Vector3 Movedir = new Vector3(0,0,0);
     [SerializeField]
     float speed = 2f;
     [SerializeField]
@@ -36,6 +36,9 @@ public class PlayerController : BaseController
     }
     protected override void Update()
     {
+        Vector3 RemoveZdir = transform.position;
+        RemoveZdir.z = 0;
+        transform.position = RemoveZdir;
         base.Update();
 
             nowshoot += Time.deltaTime;
@@ -237,7 +240,7 @@ public class PlayerController : BaseController
         Debug.Log("Fuck");
         for (int i =0; i< 50; i++)
         {
-            transform.Translate(new Vector3(-0.5f / 50f, 0));
+            transform.Translate(new Vector3(-0.5f / 50f, 0,0));
             yield return null;
         }
         State = Define.State.Idle;
