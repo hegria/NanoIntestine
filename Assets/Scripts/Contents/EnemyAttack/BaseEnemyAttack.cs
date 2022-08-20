@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class BaseEnemyAttack : MonoBehaviour
 {
+    [SerializeField]
     bool alive = false;
-    protected virtual void OnCollisionEnter2D(Collision2D collision)
+
+
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag  == "Player")
+        if (collision.gameObject.tag == "Player")
         {
-            //Hit event
+            collision.gameObject.GetComponent<PlayerController>().State = Define.State.Ouch;
+
             if (!alive)
                 Destroy(gameObject);
         }

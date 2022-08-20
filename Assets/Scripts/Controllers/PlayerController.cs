@@ -7,7 +7,8 @@ public class PlayerController : BaseController
 
     
 
-    Define.Direction dir = Define.Direction.Left;
+    Define.Direction dir = Define.Direction.Right;
+    Define.Direction lookdir = Define.Direction.Right;
     [SerializeField]
     Vector3 Movedir = new Vector3();
     [SerializeField]
@@ -17,8 +18,9 @@ public class PlayerController : BaseController
 
     Vector3 shootdir = new Vector3();
     float Shootdelay = 0.5f;
-    float nowshoot = 0f;
-    bool shooted = false;
+    float nowshoot = 0.5f;
+    float antiShootdelay = 1.5f;
+    float antinowshoot = 1.5f;
 
     Rigidbody2D myRigid2D;
 
@@ -32,10 +34,11 @@ public class PlayerController : BaseController
     {
         base.Update();
 
-        if (shooted)
-        {
             nowshoot += Time.deltaTime;
-        }
+            antinowshoot += Time.deltaTime;
+
+        if (Managers.Game.WillIDie(transform.position))
+            Player.player.Dieing();
     }
 
     protected override void UpdateDie()
@@ -50,6 +53,7 @@ public class PlayerController : BaseController
         {
             State = Define.State.Idle;
         }
+
     }
     protected override void UpdateIdle() 
     { 
@@ -66,6 +70,10 @@ public class PlayerController : BaseController
     public void MakeMoveMent()
     {
 
+        if (State == Define.State.Ouch)
+            return;
+
+
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.RightArrow))
         {
 
@@ -74,6 +82,7 @@ public class PlayerController : BaseController
                 State = Define.State.Moving;
             Movedir.x = 1.0f;
             dir = Define.Direction.Right;
+            lookdir = Define.Direction.Right;
             shootdir.y = 0;
             shootdir.x = 1.0f;
         }
@@ -84,6 +93,7 @@ public class PlayerController : BaseController
             if (State != Define.State.Jumping)
                 State = Define.State.Moving;
             dir = Define.Direction.Left;
+            lookdir = Define.Direction.Left;
             Movedir.x = 1.0f;
             shootdir.y = 0;
             shootdir.x = -1.0f;
@@ -94,12 +104,8 @@ public class PlayerController : BaseController
             Movedir.x = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.C))
         {
-
-            dir = Define.Direction.Up;
-            shootdir.y = 1.0f;
-            shootdir.x = 0;
 
             if (State == Define.State.Jumping)
             {
@@ -111,7 +117,7 @@ public class PlayerController : BaseController
                 myRigid2D.AddForce(new Vector2(0, 3f), ForceMode2D.Impulse);
                 State = Define.State.Jumping;
             }
-        }else if (Input.GetKey(KeyCode.UpArrow))
+        }else if (Input.GetKey(KeyCode.C))
         {
             if (State == Define.State.Jumping)
             {
@@ -121,6 +127,13 @@ public class PlayerController : BaseController
             }
         }
 
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            dir = Define.Direction.Up;
+            shootdir.y = 1.0f;
+            shootdir.x = 0;
+        }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             dir = Define.Direction.Down;
@@ -128,12 +141,11 @@ public class PlayerController : BaseController
             shootdir.x = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             // Gen Drill
-            if ( nowshoot >= Shootdelay || !shooted)
+            if ( nowshoot >= Shootdelay)
             {
-                shooted = true;
                 nowshoot = 0;
                 GameObject obj = Managers.Resource.Instantiate("Drill");
                 // Init 함수로 집어넣어야함.
@@ -143,7 +155,22 @@ public class PlayerController : BaseController
             
             //Attack // TODO 쿨다운 / 장탄 수좀 넣어야함.
         }
-        
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            // Gen Drill
+            if (antinowshoot >= antiShootdelay)
+            {
+                nowshoot = 0;
+                GameObject obj = Managers.Resource.Instantiate("AntiBody");
+                // Init 함수로 집어넣어야함.
+                obj.transform.position = transform.position + shootdir * 0.5f;
+                obj.transform.rotation = Util.SetRotation(dir);
+                obj.GetComponent<AttackAntibody>().Init(dir, lookdir);
+            }
+
+            //Attack // TODO 쿨다운 / 장탄 수좀 넣어야함.
+        }
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -156,8 +183,31 @@ public class PlayerController : BaseController
                 else
                     State = Define.State.Idle;
             }
-        } 
+        }
     }
 
-    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Liquid")
+        {
+            Player.player.Dieing();
+        }
+    }
+
+
+    protected override void OnOuch()
+    {
+        StartCoroutine("ouchevent");
+    }
+
+    IEnumerator ouchevent()
+    {
+        Debug.Log("Fuck");
+        for (int i =0; i< 50; i++)
+        {
+            transform.Translate(new Vector3(-0.5f / 50f, 0));
+            yield return null;
+        }
+        State = Define.State.Idle;
+    }
 }

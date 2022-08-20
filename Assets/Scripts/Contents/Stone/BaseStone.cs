@@ -14,6 +14,7 @@ public class BaseStone : MonoBehaviour
         {
             if(value <= 0)
             {
+                Ondead();
                 Destroy(gameObject);
             }
             _hp = value;
@@ -52,4 +53,5 @@ public class BaseStone : MonoBehaviour
     protected virtual void OnUpdate() { }
 
     protected virtual void SpwanAttack() { }
+    protected virtual void Ondead() { }
 }

@@ -31,4 +31,11 @@ public class Player : MonoBehaviour
     {
         
     }
+
+
+    public void Dieing()
+    {
+        player = null;
+        Destroy(gameObject);
+    }
 }

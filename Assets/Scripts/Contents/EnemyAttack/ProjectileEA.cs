@@ -17,7 +17,8 @@ public class ProjectileEA : BaseEnemyAttack
 
     public void Init()
     {
-        gotodir = (Player.player.transform.position - transform.position).normalized;
+        if (Player.player != null)
+            gotodir = (Player.player.transform.position - transform.position).normalized;
     }
 
     // Update is called once per frame
@@ -27,9 +28,9 @@ public class ProjectileEA : BaseEnemyAttack
         //TODO 사라지는판정
     }
 
-    protected override void OnCollisionEnter2D(Collision2D collision)
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        base.OnCollisionEnter2D(collision);
+        base.OnTriggerEnter2D(collision);
 
         if (collision.gameObject.tag == "Platfrom")
         {

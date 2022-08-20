@@ -29,7 +29,7 @@ public class BeamEA : BaseEnemyAttack
         StartCoroutine("GrowUp");
     }
 
-    protected override void OnCollisionEnter2D(Collision2D collision)
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
@@ -37,7 +37,7 @@ public class BeamEA : BaseEnemyAttack
                 return;
             nowAttacked = true;
         }
-        base.OnCollisionEnter2D(collision);
+        base.OnTriggerEnter2D(collision);
     }
 
     IEnumerator GrowUp()

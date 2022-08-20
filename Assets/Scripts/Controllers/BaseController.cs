@@ -26,9 +26,15 @@ public abstract class BaseController : MonoBehaviour
 					break;
 				case Define.State.Jumping:
 					break;
+				case Define.State.Ouch:
+					OnOuch();
+					break;
 			}
 		}
 	}
+
+
+	protected virtual void OnOuch() { }
 
 	private void Start()
 	{
@@ -54,6 +60,9 @@ public abstract class BaseController : MonoBehaviour
 			case Define.State.Jumping:
 				UpdateJumping();
 				break;
+			case Define.State.Ouch:
+				UpdateOuch();
+				break;
 		}
 	}
 
@@ -64,4 +73,5 @@ public abstract class BaseController : MonoBehaviour
 	protected virtual void UpdateIdle() { }
 	protected virtual void UpdateSkill() { }
 	protected virtual void UpdateJumping() { }
+	protected virtual void UpdateOuch() { }
 }
