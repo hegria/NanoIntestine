@@ -46,7 +46,7 @@ public class Managers : MonoBehaviour
     {
         if (s_instance == null)
         {
-			GameObject go = GameObject.Find("@Managers");
+            GameObject go = GameObject.Find("@Managers");
             if (go == null)
             {
                 go = new GameObject { name = "@Managers" };
@@ -60,7 +60,7 @@ public class Managers : MonoBehaviour
             s_instance._pool.Init();
             s_instance._sound.Init();
             s_instance._game.Init();
-        }		
+        }
 	}
 
     public static void Clear()

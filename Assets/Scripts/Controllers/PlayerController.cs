@@ -184,6 +184,23 @@ public class PlayerController : BaseController
             shootdir.y = -1.0f;
             shootdir.x = 0;
         }
+        if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W)
+             || Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.S))
+        {
+            dir = lookdir;
+            if (dir == Define.Direction.Left)
+            {
+
+                shootdir.y = 0;
+                shootdir.x = -1.0f;
+            }
+            else
+            {
+
+                shootdir.y = 0;
+                shootdir.x = 1.0f;
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -288,10 +305,13 @@ public class PlayerController : BaseController
         }
     }
 
+    Coroutine ouch = null;
 
     protected override void OnOuch()
     {
-        StartCoroutine("ouchevent");
+        if (ouch != null)
+            StopCoroutine(ouch);
+        ouch = StartCoroutine("ouchevent");
     }
 
     IEnumerator ouchevent()
@@ -303,5 +323,6 @@ public class PlayerController : BaseController
             yield return null;
         }
         State = Define.State.Idle;
+        ouch = null;
     }
 }

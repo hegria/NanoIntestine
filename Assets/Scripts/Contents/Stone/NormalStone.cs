@@ -20,10 +20,10 @@ public class NormalStone : BaseStone
     {
         
         GameObject projectattack = Managers.Resource.Instantiate("ProjectileEA");
-        projectattack.transform.position = transform.position + spwanDir;
         Vector3 dir = Player.player.transform.position - projectattack.transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        projectattack.transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+        projectattack.transform.position = transform.position;
+        projectattack.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         projectattack.GetComponent<ProjectileEA>().Init();
         
     }

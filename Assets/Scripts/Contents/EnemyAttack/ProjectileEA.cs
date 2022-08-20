@@ -18,7 +18,12 @@ public class ProjectileEA : BaseEnemyAttack
     public void Init()
     {
         if (Player.player != null)
+        {
             gotodir = (Player.player.transform.position - transform.position).normalized;
+            transform.position += 0.5f * gotodir;
+        }
+            
+        
     }
 
     // Update is called once per frame
