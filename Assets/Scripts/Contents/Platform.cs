@@ -20,7 +20,6 @@ public class Platform : MonoBehaviour
     int _hp = 1;
 
     protected virtual void Ondead() {
-
     }
     
 }

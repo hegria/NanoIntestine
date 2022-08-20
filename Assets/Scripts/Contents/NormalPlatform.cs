@@ -8,6 +8,8 @@ public class NormalPlatform : Platform
     protected override void Ondead()
     {
         base.Ondead();
-        Destroy(gameObject);
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
+        gameObject.GetComponent<Animator>().SetTrigger("Dead");
     }
 }
