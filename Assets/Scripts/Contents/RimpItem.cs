@@ -10,7 +10,7 @@ public class RimpItem : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            gameObject.GetComponent<PlayerController>().Antibodynum = 3;
+            collision.gameObject.GetComponent<PlayerController>().Antibodynum = 3;
             Destroy(gameObject);
         }
     }
