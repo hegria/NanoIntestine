@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public static Player player = null;
 
+
     public int Hp
     {
         get { return _hp; }

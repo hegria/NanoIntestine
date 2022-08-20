@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoodStone : MonoBehaviour
+public class GoodStone : BaseStone
 {
     // Start is called before the first frame update
-    void Start()
+    protected override void Ondead()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        base.Ondead();
+        GameObject go = Managers.Resource.Instantiate("RimpItem");
+        go.transform.position = gameObject.transform.position;
     }
 }

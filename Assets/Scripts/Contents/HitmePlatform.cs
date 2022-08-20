@@ -14,7 +14,7 @@ public class HitmePlatform : Platform
     protected override void Ondead()
     {
         Debug.Log("fuck");
-        if (nowplay!= null)
+        if (nowplay != null)
             StopCoroutine(nowplay);
         nowplay = StartCoroutine("Ouch");
     }

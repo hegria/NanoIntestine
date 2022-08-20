@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 456383416789557448}
   - component: {fileID: 456383416789557449}
   - component: {fileID: 456383416789557455}
-  - component: {fileID: 456383416789557454}
+  - component: {fileID: 5555119516697811700}
   m_Layer: 0
   m_Name: GoodStone
   m_TagString: Stone
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
---- !u!114 &456383416789557454
+--- !u!114 &5555119516697811700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,10 +121,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 456383416789557450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064d02ee13829ae4a8710b76f81a531c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b3f7ea3ee5e2184b81df8cb4f923a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spwanDir: {x: -1, y: 0, z: 0}
+  spwanDir: {x: 0, y: 0, z: 0}
   _hp: 3
-  GenTime: 2
+  GenTime: 1
   nowTime: 0

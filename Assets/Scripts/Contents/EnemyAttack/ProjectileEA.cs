@@ -32,7 +32,10 @@ public class ProjectileEA : BaseEnemyAttack
     {
         base.OnTriggerEnter2D(collision);
 
-        if (collision.gameObject.tag == "Platfrom")
+
+        Debug.Log("I'mchild mofucker");
+
+        if (collision.gameObject.tag == "Platform")
         {
             Destroy(gameObject);
         }

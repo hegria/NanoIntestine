@@ -5,8 +5,7 @@ using UnityEngine;
 public class PlayerController : BaseController
 {
 
-    
-
+    public int Antibodynum { get { return antibodynum; } set { antibodynum = value; } }
     Define.Direction dir = Define.Direction.Right;
     Define.Direction lookdir = Define.Direction.Right;
     [SerializeField]
@@ -15,10 +14,14 @@ public class PlayerController : BaseController
     float speed = 2f;
     [SerializeField]
     float Jetpack = 2f;
+    [SerializeField]
+    int antibodynum = 3;
+
 
     Vector3 shootdir = new Vector3();
     float Shootdelay = 0.5f;
     float nowshoot = 0.5f;
+
     float antiShootdelay = 1.5f;
     float antinowshoot = 1.5f;
 
@@ -157,6 +160,10 @@ public class PlayerController : BaseController
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
+            if(antibodynum <= 0)
+            {
+                return;
+            }
             // Gen Drill
             if (antinowshoot >= antiShootdelay)
             {
@@ -166,6 +173,7 @@ public class PlayerController : BaseController
                 obj.transform.position = transform.position + shootdir * 0.5f;
                 obj.transform.rotation = Util.SetRotation(dir);
                 obj.GetComponent<AttackAntibody>().Init(dir, lookdir);
+                antibodynum++;
             }
 
             //Attack // TODO 쿨다운 / 장탄 수좀 넣어야함.

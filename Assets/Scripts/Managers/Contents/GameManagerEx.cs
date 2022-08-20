@@ -15,6 +15,18 @@ public class GameManagerEx
     }
 
     
+    public void OnUpdate()
+    {
+        if(Player.player != null)
+        {
+            if( Player.player.transform.position.y >= Level * 10 + Size - 0.5f)
+            {
+                Level++;
+                Camera.main.transform.Translate(new Vector3(0, 10f, 0));
+            }
+        }
+    }
+
 
     public bool WillIDie(Vector3 position)
     {
