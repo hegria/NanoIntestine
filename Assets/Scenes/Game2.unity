@@ -229,6 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e5a2a4ab56bf724faae15359b0ee526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mySceneType: 2
 --- !u!1 &98429946
 GameObject:
   m_ObjectHideFlags: 0
@@ -2879,7 +2880,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2301199899707793663, guid: 440bf4abe63f3df41a1d14731ce602b1, type: 3}
       propertyPath: genSize
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2301199899707793663, guid: 440bf4abe63f3df41a1d14731ce602b1, type: 3}
       propertyPath: spwanDir.x
@@ -2887,7 +2888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2301199899707793663, guid: 440bf4abe63f3df41a1d14731ce602b1, type: 3}
       propertyPath: spwanDir.y
-      value: -1
+      value: -0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 440bf4abe63f3df41a1d14731ce602b1, type: 3}

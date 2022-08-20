@@ -16,7 +16,7 @@ public class LobbyScene : BaseScene
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Managers.Scene.LoadScene(Define.Scene.Game);
+            Managers.Scene.LoadScene(Define.Scene.Game1);
         }
     }
 

@@ -31,7 +31,9 @@ public class Define
     public enum Scene
     {
         Lobby,
-        Game,
+        Game1,
+        Game2,
+        Game3,
     }
 
     public enum Sound

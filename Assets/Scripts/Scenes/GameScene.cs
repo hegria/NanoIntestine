@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class GameScene : BaseScene
 {
+
+    [SerializeField]
+    Define.Scene mySceneType;
     protected override void Init()
     {
         base.Init();
 
-        SceneType = Define.Scene.Game;
+        SceneType = mySceneType;
         //Managers.UI.ShowSceneUI<UI_Inven>();
         Dictionary<int, Data.Stat> dict = Managers.Data.StatDict;
 
@@ -20,7 +23,7 @@ public class GameScene : BaseScene
             Debug.Log("OKGO");
             Time.timeScale = 1f;
             Managers.Game.Level = 0;
-            Managers.Scene.LoadScene(Define.Scene.Game);
+            Managers.Scene.LoadScene(mySceneType);
             Managers.Game.gameEnd = false;
         }
     }
