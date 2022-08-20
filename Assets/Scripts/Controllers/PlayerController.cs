@@ -104,6 +104,8 @@ public class PlayerController : BaseController
             lookdir = Define.Direction.Right;
             shootdir.y = 0;
             shootdir.x = 1.0f;
+
+            
         }
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.LeftArrow)
             || Input.GetKey(KeyCode.A) || Input.GetKeyDown(KeyCode.A))
@@ -168,13 +170,15 @@ public class PlayerController : BaseController
         }
 
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)
+            || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
             dir = Define.Direction.Up;
             shootdir.y = 1.0f;
             shootdir.x = 0;
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)
+            || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
             dir = Define.Direction.Down;
             shootdir.y = -1.0f;
