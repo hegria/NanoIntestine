@@ -29,8 +29,6 @@ public class Define
 
     public enum Scene
     {
-        Unknown,
-        Login,
         Lobby,
         Game,
     }
@@ -59,5 +57,12 @@ public class Define
     public enum CameraMode
     {
         QuarterView,
+    }
+    public enum Direction
+    {
+        Up,
+        Down,
+        Right,
+        Left
     }
 }

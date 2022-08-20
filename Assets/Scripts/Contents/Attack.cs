@@ -21,6 +21,14 @@ public class Attack : MonoBehaviour
             if (collision.gameObject.GetComponent<BreakAble>() != null)
                 Destroy(collision.gameObject);
             Destroy(gameObject);
+            return;
         }
+        if(collision.gameObject.tag == "Stone")
+        {
+            BaseStone stone = collision.gameObject.GetComponent<BaseStone>();
+            stone.Hp = stone.Hp - 1;
+            Destroy(gameObject);
+        }
+        
     }
 }

@@ -51,5 +51,24 @@ public class Util
         return null;
     }
 
-
+    public static Quaternion SetRotation(Define.Direction dir)
+    {
+        Quaternion q = new Quaternion();
+        switch (dir)
+        {
+            case Define.Direction.Up:
+                q = Quaternion.Euler(0, 0, 90);
+                break;
+            case Define.Direction.Down:
+                q = Quaternion.Euler(0, 0, -90);
+                break;
+            case Define.Direction.Right:
+                q = Quaternion.Euler(0, 0, 0);
+                break;
+            case Define.Direction.Left:
+                q = Quaternion.Euler(0, 0, 180);
+                break;
+        }
+        return q;
+    }
 }

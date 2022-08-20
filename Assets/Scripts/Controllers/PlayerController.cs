@@ -5,15 +5,9 @@ using UnityEngine;
 public class PlayerController : BaseController
 {
 
-    enum Direction
-    {
-        Up,
-        Down,
-        Right,
-        Left
-    }
+    
 
-    Direction dir = Direction.Left;
+    Define.Direction dir = Define.Direction.Left;
     [SerializeField]
     Vector3 Movedir = new Vector3();
     [SerializeField]
@@ -25,7 +19,6 @@ public class PlayerController : BaseController
     float Shootdelay = 0.5f;
     float nowshoot = 0f;
     bool shooted = false;
-
 
     Rigidbody2D myRigid2D;
 
@@ -80,7 +73,7 @@ public class PlayerController : BaseController
             if (State != Define.State.Jumping)
                 State = Define.State.Moving;
             Movedir.x = 1.0f;
-            dir = Direction.Right;
+            dir = Define.Direction.Right;
             shootdir.y = 0;
             shootdir.x = 1.0f;
         }
@@ -90,7 +83,7 @@ public class PlayerController : BaseController
             transform.rotation = Quaternion.Euler(0, 180, 0);
             if (State != Define.State.Jumping)
                 State = Define.State.Moving;
-            dir = Direction.Left;
+            dir = Define.Direction.Left;
             Movedir.x = 1.0f;
             shootdir.y = 0;
             shootdir.x = -1.0f;
@@ -104,7 +97,7 @@ public class PlayerController : BaseController
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
 
-            dir = Direction.Up;
+            dir = Define.Direction.Up;
             shootdir.y = 1.0f;
             shootdir.x = 0;
 
@@ -130,7 +123,7 @@ public class PlayerController : BaseController
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            dir = Direction.Down;
+            dir = Define.Direction.Down;
             shootdir.y = -1.0f;
             shootdir.x = 0;
         }
@@ -143,8 +136,9 @@ public class PlayerController : BaseController
                 shooted = true;
                 nowshoot = 0;
                 GameObject obj = Managers.Resource.Instantiate("Drill");
-                obj.transform.position = transform.position + shootdir;
-                obj.transform.rotation = SetRotation();
+                // Init 함수로 집어넣어야함.
+                obj.transform.position = transform.position + shootdir * 0.5f;
+                obj.transform.rotation = Util.SetRotation(dir);
             }
             
             //Attack // TODO 쿨다운 / 장탄 수좀 넣어야함.
@@ -165,24 +159,5 @@ public class PlayerController : BaseController
         } 
     }
 
-    public Quaternion SetRotation()
-    {
-        Quaternion q = new Quaternion();
-        switch (dir)
-        {
-            case Direction.Up:
-                q = Quaternion.Euler(0, 0, 90);
-                break;
-            case Direction.Down:
-                q = Quaternion.Euler(0, 0, -90);
-                break;
-            case Direction.Right:
-                q = Quaternion.Euler(0, 0, 0);
-                break;
-            case Direction.Left:
-                q = Quaternion.Euler(0, 0, 180);
-                break;
-        }
-        return q;
-    }
+    
 }
