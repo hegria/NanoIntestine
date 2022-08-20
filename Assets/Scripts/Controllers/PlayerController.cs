@@ -31,6 +31,8 @@ public class PlayerController : BaseController
     {
         Managers.Input.KeyAction -= MakeMoveMent;
         Managers.Input.KeyAction += MakeMoveMent;
+        Managers.Input.MouseJustaction -= MouseAction;
+        Managers.Input.MouseJustaction += MouseAction;
         myRigid2D = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
     }
@@ -81,7 +83,8 @@ public class PlayerController : BaseController
             return;
 
 
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.RightArrow)
+            || Input.GetKey(KeyCode.D) || Input.GetKeyDown(KeyCode.D))
         {
 
             transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -93,7 +96,8 @@ public class PlayerController : BaseController
             shootdir.y = 0;
             shootdir.x = 1.0f;
         }
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.LeftArrow)
+            || Input.GetKey(KeyCode.A) || Input.GetKeyDown(KeyCode.A))
         {
 
             transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -106,12 +110,13 @@ public class PlayerController : BaseController
             shootdir.x = -1.0f;
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
+        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow)
+            || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
         {
             Movedir.x = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C)|| Input.GetKeyDown(KeyCode.Space))
         {
 
             if (State == Define.State.Jumping)
@@ -124,7 +129,7 @@ public class PlayerController : BaseController
                 myRigid2D.AddForce(new Vector2(0, 3f), ForceMode2D.Impulse);
                 State = Define.State.Jumping;
             }
-        }else if (Input.GetKey(KeyCode.C))
+        }else if (Input.GetKey(KeyCode.C) || Input.GetKey(KeyCode.Space))
         {
             if (State == Define.State.Jumping)
             {
@@ -135,13 +140,13 @@ public class PlayerController : BaseController
         }
 
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
             dir = Define.Direction.Up;
             shootdir.y = 1.0f;
             shootdir.x = 0;
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             dir = Define.Direction.Down;
             shootdir.y = -1.0f;
@@ -151,37 +156,54 @@ public class PlayerController : BaseController
         if (Input.GetKeyDown(KeyCode.Z))
         {
             // Gen Drill
-            if ( nowshoot >= Shootdelay)
-            {
-                nowshoot = 0;
-                GameObject obj = Managers.Resource.Instantiate("Drill");
-                // Init 함수로 집어넣어야함.
-                obj.transform.position = transform.position + shootdir * 0.5f;
-                obj.transform.rotation = Util.SetRotation(dir);
-            }
-            
+            shoot();
             //Attack // TODO 쿨다운 / 장탄 수좀 넣어야함.
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            if(antibodynum <= 0)
-            {
-                return;
-            }
-            // Gen Drill
-            if (antinowshoot >= antiShootdelay)
-            {
-                nowshoot = 0;
-                GameObject obj = Managers.Resource.Instantiate("AntiBody");
-                // Init 함수로 집어넣어야함.
-                obj.transform.position = transform.position + shootdir * 0.5f;
-                obj.GetComponent<AttackAntibody>().Init(dir, lookdir);
-                antibodynum++;
-            }
-
+            shootantibody();
             //Attack // TODO 쿨다운 / 장탄 수좀 넣어야함.
         }
 
+    }
+
+
+    public void MouseAction()
+    {
+        if (Input.GetMouseButtonDown(0))
+            shoot();
+        if (Input.GetMouseButtonDown(1))
+            shootantibody();
+    }
+
+    void shoot()
+    {
+        if (nowshoot >= Shootdelay)
+        {
+            nowshoot = 0;
+            GameObject obj = Managers.Resource.Instantiate("Drill");
+            // Init 함수로 집어넣어야함.
+            obj.transform.position = transform.position + shootdir * 0.5f;
+            obj.transform.rotation = Util.SetRotation(dir);
+        }
+
+    }
+    void shootantibody()
+    {
+        if (antibodynum <= 0)
+        {
+            return;
+        }
+        // Gen Drill
+        if (antinowshoot >= antiShootdelay)
+        {
+            nowshoot = 0;
+            GameObject obj = Managers.Resource.Instantiate("AntiBody");
+            // Init 함수로 집어넣어야함.
+            obj.transform.position = transform.position + shootdir * 0.5f;
+            obj.GetComponent<AttackAntibody>().Init(dir, lookdir);
+            antibodynum++;
+        }
     }
 
     Animator animator;

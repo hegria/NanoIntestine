@@ -8,6 +8,7 @@ public class InputManager
 {
     public Action KeyAction = null;
     public Action<Define.MouseEvent> MouseAction = null;
+    public Action MouseJustaction = null;
 
     bool _pressed = false;
     float _pressedTime = 0;
@@ -19,6 +20,11 @@ public class InputManager
 
         if (KeyAction != null)
 				KeyAction.Invoke();
+
+        if (MouseJustaction != null)
+        {
+            MouseJustaction.Invoke();
+        }
 
         if (MouseAction != null)
         {
