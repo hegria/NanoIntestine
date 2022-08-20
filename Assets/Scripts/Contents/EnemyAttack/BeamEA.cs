@@ -31,10 +31,16 @@ public class BeamEA : BaseEnemyAttack
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.gameObject.tag == "Player")
         {
+            
             if (nowAttacked)
+            {
+
+                Debug.Log("WTF");
                 return;
+            }
             nowAttacked = true;
         }
         base.OnTriggerEnter2D(collision);

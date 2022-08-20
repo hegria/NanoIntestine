@@ -7,16 +7,6 @@ public class Player : MonoBehaviour
     public static Player player = null;
 
 
-    public int Hp
-    {
-        get { return _hp; }
-        set
-        {
-            //Gameoverscene
-        }
-    }
-
-    int _hp;
 
     // Start is called before the first frame update
     void Start()

@@ -50,6 +50,21 @@ public class BaseStone : MonoBehaviour
         
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            // look right
+            if ((transform.position - collision.transform.position).x > 0)
+                collision.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            else
+                collision.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+
+            collision.gameObject.GetComponent<PlayerController>().State = Define.State.Ouch;
+
+        }
+    }
+
     protected virtual void OnUpdate() { }
 
     protected virtual void SpwanAttack() { }

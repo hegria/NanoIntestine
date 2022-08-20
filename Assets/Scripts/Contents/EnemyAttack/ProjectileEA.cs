@@ -24,7 +24,7 @@ public class ProjectileEA : BaseEnemyAttack
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(gotodir * speed * Time.deltaTime);
+        transform.position += gotodir * speed * Time.deltaTime;
         //TODO 사라지는판정
     }
 

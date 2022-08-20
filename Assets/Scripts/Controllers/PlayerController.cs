@@ -25,6 +25,9 @@ public class PlayerController : BaseController
     float antiShootdelay = 1.5f;
     float antinowshoot = 1.5f;
 
+    float flightTime = 1f;
+    float nowFlight = 0;
+
     Rigidbody2D myRigid2D;
 
     public override void Init()
@@ -47,7 +50,13 @@ public class PlayerController : BaseController
             antinowshoot += Time.deltaTime;
 
         if (Managers.Game.WillIDie(transform.position))
+        {
+
+            Managers.Input.KeyAction -= MakeMoveMent;
+            Managers.Input.MouseJustaction -= MouseAction;
+            Managers.Game.RestartGame();
             Player.player.Dieing();
+        }
     }
 
     protected override void UpdateDie()
@@ -121,6 +130,13 @@ public class PlayerController : BaseController
 
             if (State == Define.State.Jumping)
             {
+                if (nowFlight >= flightTime)
+                {
+                    Util.FindChild(gameObject, "Trail").GetComponent<TrailRenderer>().emitting =false;
+                    return;
+                }
+                Util.FindChild(gameObject, "Trail").GetComponent<TrailRenderer>().emitting = true;
+                nowFlight += Time.deltaTime;
                 // 연료사용
                 myRigid2D.velocity += new Vector2(0, 1f) * Jetpack * Time.deltaTime;
             }
@@ -133,10 +149,22 @@ public class PlayerController : BaseController
         {
             if (State == Define.State.Jumping)
             {
+                if (nowFlight >= flightTime)
+                {
+                    Util.FindChild(gameObject, "Trail").GetComponent<TrailRenderer>().emitting = false;
+                    return;
+                }
+                    
+                nowFlight += Time.deltaTime;
                 // 연료사용
                 myRigid2D.velocity += new Vector2(0, 1f) * Jetpack * Time.deltaTime;
-                Debug.Log("I'mFlying");
             }
+        }
+        if (Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.Space))
+        {
+
+            Util.FindChild(gameObject, "Trail").GetComponent<TrailRenderer>().emitting = false;
+
         }
 
 
@@ -185,6 +213,7 @@ public class PlayerController : BaseController
             // Init 함수로 집어넣어야함.
             obj.transform.position = transform.position + shootdir * 0.5f;
             obj.transform.rotation = Util.SetRotation(dir);
+
         }
 
     }
@@ -231,10 +260,11 @@ public class PlayerController : BaseController
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Platform")
+        if (collision.gameObject.tag == "Ground")
         {
             if (State == Define.State.Jumping)
             {
+                nowFlight = 0;
                 if (Movedir.x != 0)
                     State = Define.State.Moving;
                 else
@@ -247,6 +277,9 @@ public class PlayerController : BaseController
     {
         if (collision.gameObject.tag == "Liquid")
         {
+            Managers.Input.KeyAction -= MakeMoveMent;
+            Managers.Input.MouseJustaction -= MouseAction;
+            Managers.Game.RestartGame();
             Player.player.Dieing();
         }
     }

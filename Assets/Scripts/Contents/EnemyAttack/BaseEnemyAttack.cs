@@ -13,7 +13,7 @@ public class BaseEnemyAttack : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             // look right
-            if ((transform.position -= collision.transform.position).x > 0)
+            if ((transform.position - collision.transform.position).x > 0)
                 collision.transform.rotation = Quaternion.Euler(new  Vector3(0, 0, 0));
             else
                 collision.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));

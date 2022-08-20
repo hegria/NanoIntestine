@@ -13,6 +13,17 @@ public class GameScene : BaseScene
         Dictionary<int, Data.Stat> dict = Managers.Data.StatDict;
 
     }
+    private void Update()
+    {
+        if (Managers.Game.gameEnd&&Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("OKGO");
+            Time.timeScale = 1f;
+            Managers.Game.Level = 0;
+            Managers.Scene.LoadScene(Define.Scene.Game);
+            Managers.Game.gameEnd = false;
+        }
+    }
 
     public override void Clear()
     {
