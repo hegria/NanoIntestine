@@ -42,6 +42,27 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: background
+    uniqueID: 1475112507
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: platform
+    uniqueID: 4239872035
+    locked: 0
+  - name: enemy
+    uniqueID: 389240573
+    locked: 0
+  - name: player
+    uniqueID: 76255919
+    locked: 0
+  - name: projectiles
+    uniqueID: 3461499555
+    locked: 0
+  - name: items
+    uniqueID: 1732986851
+    locked: 0
+  - name: post
+    uniqueID: 1143178607
     locked: 0
