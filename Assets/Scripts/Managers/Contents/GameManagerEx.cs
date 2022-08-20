@@ -31,6 +31,7 @@ public class GameManagerEx
             if( Player.player.transform.position.y >= Level * 10 + Size - 0.5f)
             {
                 Level++;
+                GameObject.Find("Liquid").GetComponent<Liquid>().SetLiquid();
                 Camera.main.transform.Translate(new Vector3(0, 10f, 0));
             }
         }
