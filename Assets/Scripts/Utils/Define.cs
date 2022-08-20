@@ -17,6 +17,7 @@ public class Define
 		Moving,
 		Idle,
 		Skill,
+        Jumping,
 	}
 
     public enum Layer

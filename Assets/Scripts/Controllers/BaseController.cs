@@ -5,15 +5,7 @@ using UnityEngine;
 public abstract class BaseController : MonoBehaviour
 {
 	[SerializeField]
-	protected Vector3 _destPos;
-
-	[SerializeField]
 	protected Define.State _state = Define.State.Idle;
-
-	[SerializeField]
-	protected GameObject _lockTarget;
-
-	public Define.WorldObject WorldObjectType { get; protected set; } = Define.WorldObject.Unknown;
 
 	public virtual Define.State State
 	{
@@ -22,19 +14,17 @@ public abstract class BaseController : MonoBehaviour
 		{
 			_state = value;
 
-			Animator anim = GetComponent<Animator>();
 			switch (_state)
 			{
 				case Define.State.Die:
 					break;
 				case Define.State.Idle:
-					anim.CrossFade("WAIT", 0.1f);
 					break;
 				case Define.State.Moving:
-					anim.CrossFade("RUN", 0.1f);
 					break;
 				case Define.State.Skill:
-					anim.CrossFade("ATTACK", 0.1f, -1, 0);
+					break;
+				case Define.State.Jumping:
 					break;
 			}
 		}
@@ -45,7 +35,7 @@ public abstract class BaseController : MonoBehaviour
 		Init();
 	}
 
-	void Update()
+	protected virtual void Update()
 	{
 		switch (State)
 		{
@@ -61,6 +51,9 @@ public abstract class BaseController : MonoBehaviour
 			case Define.State.Skill:
 				UpdateSkill();
 				break;
+			case Define.State.Jumping:
+				UpdateJumping();
+				break;
 		}
 	}
 
@@ -70,4 +63,5 @@ public abstract class BaseController : MonoBehaviour
 	protected virtual void UpdateMoving() { }
 	protected virtual void UpdateIdle() { }
 	protected virtual void UpdateSkill() { }
+	protected virtual void UpdateJumping() { }
 }
