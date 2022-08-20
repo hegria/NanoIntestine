@@ -14,26 +14,11 @@ public abstract class BaseController : MonoBehaviour
 		{
 			_state = value;
 
-			switch (_state)
-			{
-				case Define.State.Die:
-					break;
-				case Define.State.Idle:
-					break;
-				case Define.State.Moving:
-					break;
-				case Define.State.Skill:
-					break;
-				case Define.State.Jumping:
-					break;
-				case Define.State.Ouch:
-					OnOuch();
-					break;
-			}
+			Onstate();
 		}
 	}
 
-
+	protected virtual void Onstate() { }
 	protected virtual void OnOuch() { }
 
 	private void Start()

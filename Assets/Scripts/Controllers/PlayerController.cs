@@ -32,6 +32,7 @@ public class PlayerController : BaseController
         Managers.Input.KeyAction -= MakeMoveMent;
         Managers.Input.KeyAction += MakeMoveMent;
         myRigid2D = gameObject.GetComponent<Rigidbody2D>();
+        animator = gameObject.GetComponent<Animator>();
     }
     protected override void Update()
     {
@@ -171,7 +172,6 @@ public class PlayerController : BaseController
                 GameObject obj = Managers.Resource.Instantiate("AntiBody");
                 // Init 함수로 집어넣어야함.
                 obj.transform.position = transform.position + shootdir * 0.5f;
-                obj.transform.rotation = Util.SetRotation(dir);
                 obj.GetComponent<AttackAntibody>().Init(dir, lookdir);
                 antibodynum++;
             }
@@ -180,6 +180,30 @@ public class PlayerController : BaseController
         }
 
     }
+
+    Animator animator;
+
+    protected override void Onstate()
+    {
+        base.Onstate();
+        switch (_state)
+        {
+            case Define.State.Idle:
+                animator.Play("Idle");
+                break;
+            case Define.State.Jumping:
+                animator.Play("Jump");
+                break;
+            case Define.State.Moving:
+                animator.Play("Moving");
+                break;
+            case Define.State.Ouch:
+                OnOuch();
+                break;
+
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Platform")
