@@ -7,11 +7,14 @@ public abstract class BaseController : MonoBehaviour
 	[SerializeField]
 	protected Define.State _state = Define.State.Idle;
 
+	protected Define.State _beforeState;
+
 	public virtual Define.State State
 	{
 		get { return _state; }
 		set
 		{
+			_beforeState = _state;
 			_state = value;
 
 			Onstate();
