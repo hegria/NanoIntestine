@@ -30,7 +30,7 @@ public class BaseAttack : MonoBehaviour
     {
         if (collision.gameObject.tag == "Platform")
         {
-            Managers.Sound.Play("AttackCrush",Define.Sound.Enemy);
+            Managers.Sound.Play("AttackCrush");
             while (Damage >= 1 && collision.gameObject.GetComponent<Platform>().Hp >= 1)
             { 
                 collision.gameObject.GetComponent<Platform>().Hp -= 1;

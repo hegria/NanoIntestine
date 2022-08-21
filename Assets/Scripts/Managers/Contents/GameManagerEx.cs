@@ -60,6 +60,7 @@ public class GameManagerEx
 
     public void RestartGame()
     {
+        Managers.Sound.StopMove();
         Managers.Sound.Play("PlayerDead", Define.Sound.UI);
         Util.FindChild(GameObject.Find("Canvas"), "Restart").SetActive(true);
         gameOvered = true;
@@ -68,6 +69,7 @@ public class GameManagerEx
 
     public void Cleared()
     {
+        Managers.Sound.StopMove();
         Managers.Sound.StopBgm();
         Managers.Sound.Play("StageClaar", Define.Sound.UI);
         GameObject cleared = Util.FindChild(GameObject.Find("Canvas"), "Cleared");
