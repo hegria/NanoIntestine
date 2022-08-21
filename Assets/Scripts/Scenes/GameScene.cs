@@ -17,14 +17,17 @@ public class GameScene : BaseScene
 
         SceneType = mySceneType;
         Managers.Game.Stage = (int)mySceneType;
+        Managers.Sound.Play($"main{Managers.Game.Stage}", Define.Sound.Bgm);
         //Managers.UI.ShowSceneUI<UI_Inven>();
         Dictionary<int, Data.Stat> dict = Managers.Data.StatDict;
 
     }
+    
     private void Update()
     {
         if (Managers.Game.gameOvered&&Input.GetKeyDown(KeyCode.R))
         {
+            Managers.Sound.Play("UI", Define.Sound.UI);
             Debug.Log("OKGO");
             Time.timeScale = 1f;
             Managers.Game.Level = 0;
@@ -33,6 +36,7 @@ public class GameScene : BaseScene
         }
         if (Managers.Game.gameCleared && Input.GetKeyDown(KeyCode.Return))
         {
+            Managers.Sound.Play("UI", Define.Sound.UI);
             Debug.Log("OKGO");
             Time.timeScale = 1f;
             Managers.Game.Level = 0;

@@ -22,7 +22,7 @@ public class HitmePlatform : Platform
     IEnumerator Ouch()
     {
         transform.GetChild(0).gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
         Hp = maxhp;
         transform.GetChild(0).gameObject.SetActive(false);
     }   

@@ -24,6 +24,7 @@ public class BeamStone : BaseStone
     {
         GameObject beamAttack = Managers.Resource.Instantiate("BeamEA");
 
+        Managers.Sound.Play("EnemyLasser", Define.Sound.Enemy);
         beamAttack.transform.position = transform.position + spwanDir;
         beamAttack.transform.rotation = Util.SetRotation(dir);
         beamAttack.GetComponent<BeamEA>().Init(genSize);

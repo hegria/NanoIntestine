@@ -26,15 +26,18 @@ public class LobbyScene : BaseScene
 
     public void Play()
     {
+        Managers.Sound.Play("UI");
         Managers.Scene.LoadScene(Define.Scene.Game1);
     }
 
     public void HowToPlay()
     {
+        Managers.Sound.Play("UI");
         howto.SetActive(true);
     }
     public void Close()
     {
+        Managers.Sound.Play("UI");
         howto.SetActive(false);
     }
 }

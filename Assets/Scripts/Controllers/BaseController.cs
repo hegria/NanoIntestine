@@ -29,6 +29,8 @@ public abstract class BaseController : MonoBehaviour
 		Init();
 	}
 
+	
+
 	protected virtual void Update()
 	{
 		switch (State)

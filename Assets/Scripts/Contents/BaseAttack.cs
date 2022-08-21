@@ -28,7 +28,9 @@ public class BaseAttack : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Platform") {
+        if (collision.gameObject.tag == "Platform")
+        {
+            Managers.Sound.Play("AttackCrush",Define.Sound.Enemy);
             while (Damage >= 1 && collision.gameObject.GetComponent<Platform>().Hp >= 1)
             { 
                 collision.gameObject.GetComponent<Platform>().Hp -= 1;
@@ -40,6 +42,7 @@ public class BaseAttack : MonoBehaviour
         }
         if(collision.gameObject.tag == "Stone")
         {
+            Managers.Sound.Play("AttackCrush", Define.Sound.Enemy);
             BaseStone stone = collision.gameObject.GetComponent<BaseStone>();
             while (Damage >= 1 && stone.Hp >= 1)
             {

@@ -14,6 +14,7 @@ public class SuicideStone : BaseStone
     {
         base.Ondead();
 
+        Managers.Sound.Play("EnemySuicide");
         for (int i =0; i < 8; i++)
         {
             Vector3 temp = new Vector3(xdir[i], ydir[i]);

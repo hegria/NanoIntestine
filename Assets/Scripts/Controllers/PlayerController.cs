@@ -9,7 +9,7 @@ public class PlayerController : BaseController
     Define.Direction dir = Define.Direction.Right;
     Define.Direction lookdir = Define.Direction.Right;
     [SerializeField]
-    Vector3 Movedir = new Vector3(0,0,0);
+    Vector3 Movedir = new Vector3(0, 0, 0);
     [SerializeField]
     float speed = 2f;
     [SerializeField]
@@ -17,7 +17,7 @@ public class PlayerController : BaseController
     [SerializeField]
     int antibodynum = 3;
 
-    
+
 
 
     Vector3 shootdir = new Vector3();
@@ -48,8 +48,8 @@ public class PlayerController : BaseController
         transform.position = RemoveZdir;
         base.Update();
 
-            nowshoot += Time.deltaTime;
-            antinowshoot += Time.deltaTime;
+        nowshoot += Time.deltaTime;
+        antinowshoot += Time.deltaTime;
 
         if (Managers.Game.WillIDie(transform.position))
         {
@@ -57,18 +57,15 @@ public class PlayerController : BaseController
             Managers.Input.KeyAction -= MakeMoveMent;
             Managers.Input.MouseJustaction -= MouseAction;
             Managers.Game.RestartGame();
+            StopCoroutine("Walk");
             Player.player.Dieing();
         }
     }
 
-    protected override void UpdateMoving() 
+    protected override void UpdateMoving()
     {
         transform.Translate(Movedir * Time.deltaTime * speed);
 
-        if (Movedir.x == 0 && State == Define.State.Moving)
-        {
-            State = Define.State.Idle;
-        }
 
     }
 
@@ -96,7 +93,7 @@ public class PlayerController : BaseController
         {
 
             transform.rotation = Quaternion.Euler(0, 0, 0);
-            if (State != Define.State.Jumping)
+            if (State != Define.State.Jumping && State != Define.State.Moving)
                 State = Define.State.Moving;
             Movedir.x = 1.0f;
             dir = Define.Direction.Right;
@@ -104,14 +101,14 @@ public class PlayerController : BaseController
             shootdir.y = 0;
             shootdir.x = 1.0f;
 
-            
+
         }
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.LeftArrow)
             || Input.GetKey(KeyCode.A) || Input.GetKeyDown(KeyCode.A))
         {
 
             transform.rotation = Quaternion.Euler(0, 180, 0);
-            if (State != Define.State.Jumping)
+            if (State != Define.State.Jumping && State != Define.State.Moving)
                 State = Define.State.Moving;
             dir = Define.Direction.Left;
             lookdir = Define.Direction.Left;
@@ -124,16 +121,19 @@ public class PlayerController : BaseController
             || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
         {
             Movedir.x = 0;
+            State = Define.State.Idle;
         }
 
-        if (Input.GetKeyDown(KeyCode.C)|| Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.Space))
         {
 
             if (State == Define.State.Jumping)
             {
+                Managers.Sound.Play("PlayerSpaceBar(SoundDown)",Define.Sound.Movement);
                 if (nowFlight >= flightTime)
                 {
-                    Util.FindChild(gameObject, "Trail").GetComponent<TrailRenderer>().emitting =false;
+                    Util.FindChild(gameObject, "Trail").GetComponent<TrailRenderer>().emitting = false;
+                    Managers.Sound.StopMove();
                     return;
                 }
                 Util.FindChild(gameObject, "Trail").GetComponent<TrailRenderer>().emitting = true;
@@ -146,16 +146,17 @@ public class PlayerController : BaseController
                 myRigid2D.AddForce(new Vector2(0, 3f), ForceMode2D.Impulse);
                 State = Define.State.Jumping;
             }
-        }else if (Input.GetKey(KeyCode.C) || Input.GetKey(KeyCode.Space))
+        } else if (Input.GetKey(KeyCode.C) || Input.GetKey(KeyCode.Space))
         {
             if (State == Define.State.Jumping)
             {
                 if (nowFlight >= flightTime)
                 {
+                    Managers.Sound.StopMove();
                     Util.FindChild(gameObject, "Trail").GetComponent<TrailRenderer>().emitting = false;
                     return;
                 }
-                    
+
                 nowFlight += Time.deltaTime;
                 // 연료사용
                 myRigid2D.velocity += new Vector2(0, 1f) * Jetpack * Time.deltaTime;
@@ -163,7 +164,7 @@ public class PlayerController : BaseController
         }
         if (Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.Space))
         {
-
+            Managers.Sound.StopMove();
             Util.FindChild(gameObject, "Trail").GetComponent<TrailRenderer>().emitting = false;
 
         }
@@ -215,7 +216,6 @@ public class PlayerController : BaseController
 
     }
 
-
     public void MouseAction()
     {
         if (Input.GetMouseButtonDown(0))
@@ -228,6 +228,7 @@ public class PlayerController : BaseController
     {
         if (nowshoot >= Shootdelay)
         {
+            Managers.Sound.Play("PlayerShootDrill");
             nowshoot = 0;
             GameObject obj = Managers.Resource.Instantiate("Drill");
             // Init 함수로 집어넣어야함.
@@ -246,6 +247,7 @@ public class PlayerController : BaseController
         // Gen Drill
         if (antinowshoot >= antiShootdelay)
         {
+            Managers.Sound.Play("PlayerShootAntibody",Define.Sound.UI);
             nowshoot = 0;
             GameObject obj = Managers.Resource.Instantiate("AntiBody");
             // Init 함수로 집어넣어야함.
@@ -255,6 +257,8 @@ public class PlayerController : BaseController
         }
     }
 
+
+
     Animator animator;
 
     protected override void Onstate()
@@ -263,20 +267,38 @@ public class PlayerController : BaseController
         switch (_state)
         {
             case Define.State.Idle:
+                StopCoroutine("Walk");
+                Managers.Sound.StopMove();
                 animator.Play("Idle");
                 break;
             case Define.State.Jumping:
+                StopCoroutine("Walk");
+                Managers.Sound.StopMove();
+                Managers.Sound.Play("PlayerHop");
                 animator.Play("Jump");
                 break;
             case Define.State.Moving:
+                StartCoroutine("Walk");
                 animator.Play("Moving");
                 break;
             case Define.State.Ouch:
+                StopCoroutine("Walk");
+                Managers.Sound.StopMove();
                 OnOuch();
-
+                Managers.Sound.Play("Ouch");
                 animator.Play("Ouch");
                 break;
 
+        }
+    }
+
+    IEnumerator Walk()
+    {
+        while (true)
+        {
+            
+            Managers.Sound.Play("PlayerWalk");
+            yield return new WaitForSeconds(0.2f);
         }
     }
 
@@ -284,8 +306,12 @@ public class PlayerController : BaseController
     {
         if (collision.gameObject.tag == "Ground")
         {
-            if (State == Define.State.Jumping)
+            if (State == Define.State.Jumping && myRigid2D.velocity.y <= 0)
             {
+                Managers.Sound.StopMove();
+                Debug.Log("I'mlanding");
+                Managers.Sound.Play("PlayerLand");
+
                 nowFlight = 0;
                 if (Movedir.x != 0)
                     State = Define.State.Moving;
@@ -295,13 +321,18 @@ public class PlayerController : BaseController
         }
     }
 
+
     
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ground")
+        if (collision.gameObject.tag == "Ground" )
         {
-            if (State == Define.State.Jumping)
+            if (State == Define.State.Jumping && myRigid2D.velocity.y <= 0)
             {
+                Managers.Sound.StopMove();
+                Debug.Log("I'mlanding");
+                Managers.Sound.Play("PlayerLand");
+
                 nowFlight = 0;
                 if (Movedir.x != 0)
                     State = Define.State.Moving;
@@ -317,6 +348,7 @@ public class PlayerController : BaseController
             Managers.Input.KeyAction -= MakeMoveMent;
             Managers.Input.MouseJustaction -= MouseAction;
             Managers.Game.RestartGame();
+            StopCoroutine("Walk");
             Player.player.Dieing();
         }
     }

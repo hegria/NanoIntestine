@@ -6,6 +6,7 @@ public class SoundManager
 {
     AudioSource[] _audioSources = new AudioSource[(int)Define.Sound.MaxCount];
     Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
+    //Dictionary<string, bool> _nowPlay = new Dictionary<string, bool>();
 
     // MP3 Player   -> AudioSource
     // MP3 음원     -> AudioClip
@@ -26,7 +27,6 @@ public class SoundManager
                 _audioSources[i] = go.AddComponent<AudioSource>();
                 go.transform.parent = root.transform;
             }
-
             _audioSources[(int)Define.Sound.Bgm].loop = true;
         }
     }
@@ -41,6 +41,19 @@ public class SoundManager
         _audioClips.Clear();
     }
 
+    public void StopBgm()
+    {
+        AudioSource audioSource = _audioSources[(int)Define.Sound.Bgm];
+        if (audioSource.isPlaying)
+            audioSource.Stop();
+    }
+    public void StopMove()
+    {
+        AudioSource audioSource = _audioSources[(int)Define.Sound.Movement];
+        if (audioSource.isPlaying)
+            audioSource.Stop();
+    }
+
     public void Play(string path, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
     {
         AudioClip audioClip = GetOrAddAudioClip(path, type);
@@ -52,20 +65,28 @@ public class SoundManager
         if (audioClip == null)
             return;
 
-		if (type == Define.Sound.Bgm)
+		if (type == Define.Sound.Bgm || type == Define.Sound.Movement)
 		{
-			AudioSource audioSource = _audioSources[(int)Define.Sound.Bgm];
+			AudioSource audioSource = _audioSources[(int)type];
 			if (audioSource.isPlaying)
 				audioSource.Stop();
-
-			audioSource.pitch = pitch;
+            audioSource.volume = 0.8f;
+            audioSource.pitch = pitch;
 			audioSource.clip = audioClip;
 			audioSource.Play();
 		}
 		else
 		{
-			AudioSource audioSource = _audioSources[(int)Define.Sound.Effect];
-			audioSource.pitch = pitch;
+            AudioSource audioSource = _audioSources[(int)type];
+            
+            audioSource.volume = 0.3f;
+
+            if (type == Define.Sound.Enemy)
+                audioSource.volume = 0.1f;
+            if (type == Define.Sound.UI)
+                audioSource.volume = 0.8f;
+            
+            audioSource.pitch = pitch;
 			audioSource.PlayOneShot(audioClip);
 		}
 	}

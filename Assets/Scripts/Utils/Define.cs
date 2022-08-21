@@ -40,6 +40,9 @@ public class Define
     {
         Bgm,
         Effect,
+        Movement,
+        Enemy,
+        UI,
         MaxCount,
     }
 

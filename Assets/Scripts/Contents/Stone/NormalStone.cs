@@ -18,7 +18,8 @@ public class NormalStone : BaseStone
 
     protected override void SpwanAttack()
     {
-        
+
+        Managers.Sound.Play("EnemyNormal", Define.Sound.Enemy);
         GameObject projectattack = Managers.Resource.Instantiate("ProjectileEA");
         projectattack.transform.position = transform.position;
         Vector3 dir = Player.player.transform.position - projectattack.transform.position;

@@ -10,6 +10,8 @@ public class RimpItem : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
+
+            Managers.Sound.Play("ItemGetBubble");
             collision.gameObject.GetComponent<PlayerController>().Antibodynum = 3;
             Destroy(gameObject);
         }
