@@ -5,7 +5,21 @@ using UnityEngine;
 public class PlayerController : BaseController
 {
 
-    public int Antibodynum { get { return antibodynum; } set { antibodynum = value; } }
+    public int Antibodynum { get { return antibodynum; } 
+    set { 
+            antibodynum = value;
+
+            GameObject go = Util.FindChild(GameObject.Find("Canvas"), "AntibodyNum");
+            for (int i = 0; i < 3; i++)
+            {
+                go.transform.GetChild(i).gameObject.SetActive(true);
+            }
+            for (int i = 2; i >= antibodynum ; i--)
+            {
+                go.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        } 
+    }
     Define.Direction dir = Define.Direction.Right;
     Define.Direction lookdir = Define.Direction.Right;
     [SerializeField]
@@ -248,12 +262,12 @@ public class PlayerController : BaseController
         if (antinowshoot >= antiShootdelay)
         {
             Managers.Sound.Play("PlayerShootAntibody",Define.Sound.UI);
-            nowshoot = 0;
+            antinowshoot = 0;
             GameObject obj = Managers.Resource.Instantiate("AntiBody");
             // Init 함수로 집어넣어야함.
             obj.transform.position = transform.position + shootdir * 0.5f;
             obj.GetComponent<AttackAntibody>().Init(dir, lookdir);
-            antibodynum++;
+            Antibodynum--;
         }
     }
 
