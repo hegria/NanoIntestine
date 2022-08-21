@@ -12,7 +12,7 @@ public class RimpItem : MonoBehaviour
         {
 
             Managers.Sound.Play("ItemGetBubble");
-            collision.gameObject.GetComponent<PlayerController>().Antibodynum = 3;
+            collision.gameObject.GetComponent<PlayerController>().Antibodynum = 5;
             Destroy(gameObject);
         }
     }
