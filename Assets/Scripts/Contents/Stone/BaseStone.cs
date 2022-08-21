@@ -15,6 +15,7 @@ public class BaseStone : MonoBehaviour
             if(value <= 0)
             {
                 Ondead();
+                Managers.Game.ellminatedstone--;
                 Destroy(gameObject);
             }
             _hp = value;

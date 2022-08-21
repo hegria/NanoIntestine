@@ -7,24 +7,42 @@ public class GameScene : BaseScene
 
     [SerializeField]
     Define.Scene mySceneType;
+
+    
     protected override void Init()
     {
         base.Init();
+        Managers.Game.Init();
+
 
         SceneType = mySceneType;
+        Managers.Game.Stage = (int)mySceneType;
         //Managers.UI.ShowSceneUI<UI_Inven>();
         Dictionary<int, Data.Stat> dict = Managers.Data.StatDict;
 
     }
     private void Update()
     {
-        if (Managers.Game.gameEnd&&Input.GetKeyDown(KeyCode.R))
+        if (Managers.Game.gameOvered&&Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log("OKGO");
             Time.timeScale = 1f;
             Managers.Game.Level = 0;
+            Managers.Game.gameOvered = false;
             Managers.Scene.LoadScene(mySceneType);
-            Managers.Game.gameEnd = false;
+        }
+        if (Managers.Game.gameCleared && Input.GetKeyDown(KeyCode.Return))
+        {
+            Debug.Log("OKGO");
+            Time.timeScale = 1f;
+            Managers.Game.Level = 0;
+            Managers.Game.gameCleared = false;
+            if (Managers.Game.Stage == 3)
+            {
+                Managers.Scene.LoadScene(Define.Scene.Lobby);
+            }
+            else
+                Managers.Scene.LoadScene(++mySceneType);
         }
     }
 

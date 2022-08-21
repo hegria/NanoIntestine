@@ -17,6 +17,8 @@ public class PlayerController : BaseController
     [SerializeField]
     int antibodynum = 3;
 
+    
+
 
     Vector3 shootdir = new Vector3();
     float Shootdelay = 0.5f;
@@ -59,10 +61,6 @@ public class PlayerController : BaseController
         }
     }
 
-    protected override void UpdateDie()
-    {
-
-    }
     protected override void UpdateMoving() 
     {
         transform.Translate(Movedir * Time.deltaTime * speed);
@@ -73,14 +71,15 @@ public class PlayerController : BaseController
         }
 
     }
-    protected override void UpdateIdle() 
-    { 
-        
+
+    protected override void UpdateOuch()
+    {
+        base.UpdateOuch();
+
+        Movedir.x = -0.5f;
+        transform.Translate(Movedir * Time.deltaTime * speed);
     }
-    protected override void UpdateSkill() 
-    { 
-        
-    }
+
     protected override void UpdateJumping()
     {
         transform.Translate(Movedir * Time.deltaTime * speed);
@@ -274,6 +273,8 @@ public class PlayerController : BaseController
                 break;
             case Define.State.Ouch:
                 OnOuch();
+
+                animator.Play("Ouch");
                 break;
 
         }
@@ -294,6 +295,21 @@ public class PlayerController : BaseController
         }
     }
 
+    
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            if (State == Define.State.Jumping)
+            {
+                nowFlight = 0;
+                if (Movedir.x != 0)
+                    State = Define.State.Moving;
+                else
+                    State = Define.State.Idle;
+            }
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Liquid")
@@ -305,24 +321,30 @@ public class PlayerController : BaseController
         }
     }
 
-    Coroutine ouch = null;
+    //Coroutine ouch = null;
 
     protected override void OnOuch()
     {
-        if (ouch != null)
-            StopCoroutine(ouch);
-        ouch = StartCoroutine("ouchevent");
+        
     }
 
     IEnumerator ouchevent()
     {
+
         Debug.Log("Fuck");
         for (int i =0; i< 50; i++)
         {
             transform.Translate(new Vector3(-0.5f / 50f, 0,0));
             yield return null;
         }
-        State = Define.State.Idle;
-        ouch = null;
+    }
+
+    public void OutOuch()
+    {
+        if (_beforeState == Define.State.Jumping)
+            State = Define.State.Jumping;
+        else
+            State = Define.State.Idle;
+        //ouch = null;
     }
 }
