@@ -28,16 +28,21 @@ public class GameScene : BaseScene
             Debug.Log("OKGO");
             Time.timeScale = 1f;
             Managers.Game.Level = 0;
-            Managers.Scene.LoadScene(mySceneType);
             Managers.Game.gameOvered = false;
+            Managers.Scene.LoadScene(mySceneType);
         }
         if (Managers.Game.gameCleared && Input.GetKeyDown(KeyCode.Return))
         {
             Debug.Log("OKGO");
             Time.timeScale = 1f;
             Managers.Game.Level = 0;
-            Managers.Scene.LoadScene(++mySceneType);
             Managers.Game.gameCleared = false;
+            if (Managers.Game.Stage == 3)
+            {
+                Managers.Scene.LoadScene(Define.Scene.Lobby);
+            }
+            else
+                Managers.Scene.LoadScene(++mySceneType);
         }
     }
 
