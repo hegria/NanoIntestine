@@ -39,7 +39,7 @@ public class GameManagerEx
             {
                 stageobj.transform.GetChild(Level).gameObject.SetActive(false);
                 Level++;
-                if(Level == 4)
+                if((Stage != 3 &&Level == 4) || (Stage == 3 && Level == 5))
                 {
                     Cleared();
                 }

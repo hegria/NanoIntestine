@@ -79,7 +79,7 @@ public class SoundManager
 		{
             AudioSource audioSource = _audioSources[(int)type];
             
-            audioSource.volume = 0.3f;
+            audioSource.volume = 0.25f;
 
             if (type == Define.Sound.Enemy)
                 audioSource.volume = 0.1f;
