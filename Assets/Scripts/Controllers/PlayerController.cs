@@ -29,13 +29,13 @@ public class PlayerController : BaseController
     [SerializeField]
     float Jetpack = 2f;
     [SerializeField]
-    int antibodynum = 3;
+    int antibodynum = 5;
 
 
 
 
     Vector3 shootdir = new Vector3();
-    float Shootdelay = 0.5f;
+    float Shootdelay = 0.3f;
     float nowshoot = 0.5f;
 
     float antiShootdelay = 1.5f;

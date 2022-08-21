@@ -23,7 +23,7 @@ public class Liquid : MonoBehaviour
     public void SetLiquid()
     {
         Debug.Log(Vector3.up * (Managers.Game.Level * 10f - 10f));
-        transform.position = Vector3.up * (Managers.Game.Level * 10f - 11f);
+        transform.position = Vector3.up * (Managers.Game.Level * 10f - 12f);
     }
 
     
