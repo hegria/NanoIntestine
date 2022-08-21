@@ -61,10 +61,6 @@ public class PlayerController : BaseController
         }
     }
 
-    protected override void UpdateDie()
-    {
-
-    }
     protected override void UpdateMoving() 
     {
         transform.Translate(Movedir * Time.deltaTime * speed);
@@ -75,14 +71,15 @@ public class PlayerController : BaseController
         }
 
     }
-    protected override void UpdateIdle() 
-    { 
-        
+
+    protected override void UpdateOuch()
+    {
+        base.UpdateOuch();
+
+        Movedir.x = -0.5f;
+        transform.Translate(Movedir * Time.deltaTime * speed);
     }
-    protected override void UpdateSkill() 
-    { 
-        
-    }
+
     protected override void UpdateJumping()
     {
         transform.Translate(Movedir * Time.deltaTime * speed);
@@ -276,6 +273,8 @@ public class PlayerController : BaseController
                 break;
             case Define.State.Ouch:
                 OnOuch();
+
+                animator.Play("Ouch");
                 break;
 
         }
@@ -322,29 +321,30 @@ public class PlayerController : BaseController
         }
     }
 
-    Coroutine ouch = null;
+    //Coroutine ouch = null;
 
     protected override void OnOuch()
     {
-        Movedir = new Vector3();
-        if (ouch != null)
-            StopCoroutine(ouch);
-        ouch = StartCoroutine("ouchevent");
+        
     }
 
     IEnumerator ouchevent()
     {
-        
+
         Debug.Log("Fuck");
         for (int i =0; i< 50; i++)
         {
             transform.Translate(new Vector3(-0.5f / 50f, 0,0));
             yield return null;
         }
+    }
+
+    public void OutOuch()
+    {
         if (_beforeState == Define.State.Jumping)
             State = Define.State.Jumping;
         else
             State = Define.State.Idle;
-        ouch = null;
+        //ouch = null;
     }
 }
